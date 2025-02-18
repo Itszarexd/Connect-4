@@ -83,7 +83,6 @@ class GUI:
         jugador = self.tablero[fila][col]
 
         def contar(dx, dy):
-            """Cuenta fichas en una dirección (dx, dy) y su opuesta (-dx, -dy)."""
             total = 1
             for d in [1, -1]:
                 x, y = fila + dx * d, col + dy * d
@@ -97,7 +96,6 @@ class GUI:
         return (contar(1, 0) >= 4 or contar(0, 1) >= 4 or contar(1, 1) >= 4 or contar(1, -1) >= 4)
 
     def deshabilitar_tablero(self):
-        """Deshabilita todos los botones tras una victoria."""
         for fila in self.botones:
             for btn in fila:
                 btn.config(state="disabled")
@@ -114,20 +112,17 @@ class GUI:
         self.borrar_checkpoint()
 
     def actualizar_interfaz(self):
-        """Restaura el estado del tablero en la interfaz tras cargar un checkpoint."""
         colores = {0: "white", 1: "red", 2: "yellow"}
         for r in range(self.ROWS):
             for c in range(self.COLS):
                 self.botones[r][c].configure(bg=colores[self.tablero[r][c]])
 
     def guardar_checkpoint(self):
-        """Guarda el estado actual del juego en un archivo."""
         estado = {"tablero": self.tablero, "turno": self.turno}
         with open(self.SAVE_FILE, "wb") as f:
             pickle.dump(estado, f)
 
     def cargar_checkpoint(self):
-        """Carga el estado del juego desde un archivo si existe."""
         try:
             with open(self.SAVE_FILE, "rb") as f:
                 estado = pickle.load(f)
@@ -138,7 +133,6 @@ class GUI:
             pass  
 
     def borrar_checkpoint(self):
-        """Borra el archivo de checkpoint al reiniciar el juego."""
         import os
         if os.path.exists(self.SAVE_FILE):
             os.remove(self.SAVE_FILE)
